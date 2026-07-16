@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Graphics Module Command Reference</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f7f7f4; --fg:#1c1d20; --panel:#fff; --line:#cfd4d9; --muted:#5d6470; --accent:#15616d; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#15171a; --fg:#eceff3; --panel:#1f2328; --line:#343a42; --muted:#aab2bd; --accent:#4fb3bf; } }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { max-width:1200px; margin:auto; padding:34px 22px 56px; }
+    h1 { margin:0 0 8px; font-size:clamp(2rem,5vw,3.2rem); }
+    .summary { color:var(--muted); margin-bottom:24px; }
+    input { width:100%; max-width:520px; margin:0 0 18px; padding:10px 12px; border:1px solid var(--line); border-radius:7px; background:var(--panel); color:var(--fg); }
+    table { width:100%; border-collapse:collapse; background:var(--panel); }
+    th,td { padding:10px 12px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:color-mix(in srgb,var(--accent),transparent 86%); }
+    th:first-child { width:24%; } th:nth-child(2) { width:31%; }
+    code { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; overflow-wrap:anywhere; }
+    footer { margin-top:20px; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Graphics Module</h1>
+    <p class="summary">Command reference generated from <code>src/main.cpp</code>. Arguments are shown in the order consumed by the module interpreter.</p>
+    <label for="filter">Filter commands</label><br>
+    <input id="filter" type="search" placeholder="Type a command, argument, or description">
+    <table>
+      <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>Init</code></td><td><code>Name: string</code></td><td>Initializes the module and loads its default plugin.</td></tr>
+        <tr><td><code>Debug</code></td><td><code>Value: string</code></td><td>Enables or disables diagnostic logging for the module and active plugin.</td></tr>
+        <tr><td><code>Set_Paths</code></td><td><code>Resources: string</code></td><td>Sets the root Appeal resources path used by the module.</td></tr>
+        <tr><td><code>Add_Window</code></td><td><code>Name: string, Title: string, Width: int, Height: int</code></td><td>Requests the module to add window.</td></tr>
+        <tr><td><code>Add_Full_Screen_Window</code></td><td><code>Name: string, Monitor: int</code></td><td>Requests the module to add full screen window.</td></tr>
+        <tr><td><code>Delete_Window</code></td><td><code>Name: string</code></td><td>Requests the module to delete window.</td></tr>
+        <tr><td><code>Close_All</code></td><td><code>none</code></td><td>Closes every open graphics window.</td></tr>
+        <tr><td><code>Show</code></td><td><code>Name: string</code></td><td>Requests the module to show.</td></tr>
+        <tr><td><code>Hide</code></td><td><code>Name: string</code></td><td>Requests the module to hide.</td></tr>
+        <tr><td><code>Set_Focus</code></td><td><code>Name: string</code></td><td>Requests the module to set focus.</td></tr>
+        <tr><td><code>Set_Monitor</code></td><td><code>Name: string, Monitor: int</code></td><td>Requests the module to set monitor.</td></tr>
+        <tr><td><code>Set_FPS</code></td><td><code>Frames: int</code></td><td>Requests the module to set fps.</td></tr>
+        <tr><td><code>Set_Window_Icon</code></td><td><code>Name: string, File: string</code></td><td>Requests the module to set window icon.</td></tr>
+        <tr><td><code>Set_View_Port</code></td><td><code>Window: string, X: int, Y: int, W: int, H: int</code></td><td>Requests the module to set view port.</td></tr>
+        <tr><td><code>Set_Perspective</code></td><td><code>Window: string, Fovy: float, Near: float, Far: float</code></td><td>Requests the module to set perspective.</td></tr>
+        <tr><td><code>Set_Ortho</code></td><td><code>Window: string, Left: float, Right: float, Bottom: float, Top: float, Near: float, Far: float</code></td><td>Requests the module to set ortho.</td></tr>
+        <tr><td><code>Set_Camera_Location</code></td><td><code>Window: string, X: float, Y: float, Z: float</code></td><td>Requests the module to set camera location.</td></tr>
+        <tr><td><code>Set_Camera_Orientation</code></td><td><code>Window: string, Yaw: float, Pitch: float, Roll: float</code></td><td>Requests the module to set camera orientation.</td></tr>
+        <tr><td><code>Move_Camera</code></td><td><code>Window: string, X: float, Y: float, Z: float</code></td><td>Requests the module to move camera.</td></tr>
+        <tr><td><code>Rotate_Camera</code></td><td><code>Window: string, Yaw: float, Pitch: float, Roll: float</code></td><td>Requests the module to rotate camera.</td></tr>
+        <tr><td><code>Update_Camera</code></td><td><code>Window: string</code></td><td>Requests the module to update camera.</td></tr>
+        <tr><td><code>Load_Shader</code></td><td><code>Name: string, File: string</code></td><td>Requests the module to load shader.</td></tr>
+        <tr><td><code>Load_Texture</code></td><td><code>Name: string, File: string</code></td><td>Requests the module to load texture.</td></tr>
+        <tr><td><code>Load_Font</code></td><td><code>Name: string, File: string, Size: int</code></td><td>Requests the module to load font.</td></tr>
+        <tr><td><code>Load_Mesh</code></td><td><code>Name: string, File: string</code></td><td>Requests the module to load mesh.</td></tr>
+        <tr><td><code>Load_Asset</code></td><td><code>Name: string, File: string</code></td><td>Requests the module to load asset.</td></tr>
+        <tr><td><code>Free_Texture</code></td><td><code>Name: string</code></td><td>Requests the module to free texture.</td></tr>
+        <tr><td><code>Free_Asset</code></td><td><code>Name: string</code></td><td>Requests the module to free asset.</td></tr>
+        <tr><td><code>Set_Texture</code></td><td><code>Name: string, Texture: string</code></td><td>Requests the module to set texture.</td></tr>
+        <tr><td><code>Set_Shader</code></td><td><code>Name: string, Shader: string</code></td><td>Requests the module to set shader.</td></tr>
+        <tr><td><code>Set_Location</code></td><td><code>Name: string, X: float, Y: float, Z: float</code></td><td>Requests the module to set location.</td></tr>
+        <tr><td><code>Set_Orientation</code></td><td><code>Name: string, Yaw: float, Pitch: float, Roll: float</code></td><td>Requests the module to set orientation.</td></tr>
+        <tr><td><code>Set_Scale</code></td><td><code>Name: string, X: float, Y: float, Z: float</code></td><td>Requests the module to set scale.</td></tr>
+        <tr><td><code>Move_Asset</code></td><td><code>Name: string, X: float, Y: float, Z: float</code></td><td>Requests the module to move asset.</td></tr>
+        <tr><td><code>Rotate_Asset</code></td><td><code>Name: string, Yaw: float, Pitch: float, Roll: float</code></td><td>Requests the module to rotate asset.</td></tr>
+        <tr><td><code>Set_Active_Asset</code></td><td><code>Name: string</code></td><td>Requests the module to set active asset.</td></tr>
+        <tr><td><code>Rotate_Active_Yaw_Input</code></td><td><code>Value: int</code></td><td>Requests the module to rotate active yaw input.</td></tr>
+        <tr><td><code>Move_Active_Forward_Input</code></td><td><code>Value: int</code></td><td>Requests the module to move active forward input.</td></tr>
+        <tr><td><code>Draw_Text</code></td><td><code>Font: string, Text: string, X: float, Y: float</code></td><td>Requests the module to draw text.</td></tr>
+        <tr><td><code>Draw_Rect</code></td><td><code>Name: string, X: float, Y: float, W: float, H: float, R: int, G: int, B: int, A: int</code></td><td>Requests the module to draw rect.</td></tr>
+        <tr><td><code>GUI_Begin</code></td><td><code>Name: string</code></td><td>Requests the module to gui begin.</td></tr>
+        <tr><td><code>GUI_Begin_Fullscreen</code></td><td><code>Name: string</code></td><td>Requests the module to gui begin fullscreen.</td></tr>
+        <tr><td><code>GUI_End_Window</code></td><td><code>none</code></td><td>Ends the current GUI window.</td></tr>
+        <tr><td><code>GUI_Text</code></td><td><code>Name: string, Text: string</code></td><td>Requests the module to gui text.</td></tr>
+        <tr><td><code>GUI_Label_Text</code></td><td><code>Name: string, Text: string</code></td><td>Requests the module to gui label text.</td></tr>
+        <tr><td><code>GUI_Bullet_Text</code></td><td><code>Name: string, Text: string</code></td><td>Requests the module to gui bullet text.</td></tr>
+        <tr><td><code>GUI_Separator</code></td><td><code>none</code></td><td>Requests the module to gui separator.</td></tr>
+        <tr><td><code>GUI_Separator_Text</code></td><td><code>Text: string</code></td><td>Requests the module to gui separator text.</td></tr>
+        <tr><td><code>GUI_Same_Line</code></td><td><code>none</code></td><td>Requests the module to gui same line.</td></tr>
+        <tr><td><code>GUI_New_Line</code></td><td><code>none</code></td><td>Requests the module to gui new line.</td></tr>
+        <tr><td><code>GUI_Spacing</code></td><td><code>none</code></td><td>Requests the module to gui spacing.</td></tr>
+        <tr><td><code>GUI_Indent</code></td><td><code>Pixels: int</code></td><td>Requests the module to gui indent.</td></tr>
+        <tr><td><code>GUI_Unindent</code></td><td><code>Pixels: int</code></td><td>Requests the module to gui unindent.</td></tr>
+        <tr><td><code>GUI_Group_Begin</code></td><td><code>Name: string</code></td><td>Requests the module to gui group begin.</td></tr>
+        <tr><td><code>GUI_Group_End</code></td><td><code>none</code></td><td>Requests the module to gui group end.</td></tr>
+        <tr><td><code>GUI_Button</code></td><td><code>Name: string, Text: string, Function: string</code></td><td>Requests the module to gui button.</td></tr>
+        <tr><td><code>GUI_New_Game_Project_Button</code></td><td><code>Name: string, Text: string, Name_Input: string, Picker: string</code></td><td>Requests the module to gui new game project button.</td></tr>
+        <tr><td><code>GUI_New_Level_Project_Button</code></td><td><code>Name: string, Text: string, Game_Input: string, Level_Input: string, Picker: string</code></td><td>Requests the module to gui new level project button.</td></tr>
+        <tr><td><code>GUI_Small_Button</code></td><td><code>Name: string, Text: string, Function: string</code></td><td>Requests the module to gui small button.</td></tr>
+        <tr><td><code>GUI_Button_Clicked</code></td><td><code>Name: string</code></td><td>Requests the module to gui button clicked.</td></tr>
+        <tr><td><code>Set_GUI_Button_Function</code></td><td><code>Name: string, Function: string</code></td><td>Requests the module to set gui button function.</td></tr>
+        <tr><td><code>GUI_Slider_Int</code></td><td><code>Name: string, Text: string, Value: int, Min: int, Max: int, Function: string</code></td><td>Requests the module to gui slider int.</td></tr>
+        <tr><td><code>GUI_Slider_Float</code></td><td><code>Name: string, Text: string, Value: float, Min: float, Max: float, Function: string</code></td><td>Requests the module to gui slider float.</td></tr>
+        <tr><td><code>GUI_Float_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui float value.</td></tr>
+        <tr><td><code>GUI_Float_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui float changed.</td></tr>
+        <tr><td><code>GUI_Drag_Int</code></td><td><code>Name: string, Text: string, Value: int, Min: int, Max: int, Speed: int, Function: string</code></td><td>Requests the module to gui drag int.</td></tr>
+        <tr><td><code>GUI_Drag_Float</code></td><td><code>Name: string, Text: string, Value: float, Min: float, Max: float, Speed: float, Function: string</code></td><td>Requests the module to gui drag float.</td></tr>
+        <tr><td><code>GUI_Input_Text</code></td><td><code>Name: string, Text: string, Value: string, Function: string</code></td><td>Requests the module to gui input text.</td></tr>
+        <tr><td><code>GUI_Input_Text_Multiline</code></td><td><code>Name: string, Text: string, Value: string, Width: int, Height: int, Function: string</code></td><td>Requests the module to gui input text multiline.</td></tr>
+        <tr><td><code>GUI_Set_Text_Value</code></td><td><code>Name: string, Value: string</code></td><td>Requests the module to gui set text value.</td></tr>
+        <tr><td><code>GUI_Text_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui text value.</td></tr>
+        <tr><td><code>GUI_Text_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui text changed.</td></tr>
+        <tr><td><code>GUI_Input_Int</code></td><td><code>Name: string, Text: string, Value: int, Function: string</code></td><td>Requests the module to gui input int.</td></tr>
+        <tr><td><code>GUI_Input_Float</code></td><td><code>Name: string, Text: string, Value: float, Function: string</code></td><td>Requests the module to gui input float.</td></tr>
+        <tr><td><code>GUI_Int_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui int value.</td></tr>
+        <tr><td><code>GUI_Int_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui int changed.</td></tr>
+        <tr><td><code>GUI_Slider_Int_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui slider int value.</td></tr>
+        <tr><td><code>GUI_Slider_Int_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui slider int changed.</td></tr>
+        <tr><td><code>Set_GUI_Slider_Int_Function</code></td><td><code>Name: string, Function: string</code></td><td>Requests the module to set gui slider int function.</td></tr>
+        <tr><td><code>GUI_Checkbox</code></td><td><code>Name: string, Text: string, Value: int, Function: string</code></td><td>Requests the module to gui checkbox.</td></tr>
+        <tr><td><code>GUI_Checkbox_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui checkbox value.</td></tr>
+        <tr><td><code>GUI_Checkbox_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui checkbox changed.</td></tr>
+        <tr><td><code>Set_GUI_Checkbox_Function</code></td><td><code>Name: string, Function: string</code></td><td>Requests the module to set gui checkbox function.</td></tr>
+        <tr><td><code>GUI_Radio_Button</code></td><td><code>Name: string, Text: string, Option: int, Function: string</code></td><td>Requests the module to gui radio button.</td></tr>
+        <tr><td><code>GUI_Combo</code></td><td><code>Name: string, Text: string, Items: string, Value: int, Function: string</code></td><td>Requests the module to gui combo.</td></tr>
+        <tr><td><code>GUI_List_Box</code></td><td><code>Name: string, Text: string, Items: string, Value: int, Function: string</code></td><td>Requests the module to gui list box.</td></tr>
+        <tr><td><code>GUI_File_Picker</code></td><td><code>Name: string, Text: string, Root: string, Start: string, Function: string</code></td><td>Requests the module to gui file picker.</td></tr>
+        <tr><td><code>GUI_File_Picker_Select</code></td><td><code>Name: string, Path: string</code></td><td>Requests the module to gui file picker select.</td></tr>
+        <tr><td><code>GUI_File_Picker_Set_Start</code></td><td><code>Name: string, Start: string</code></td><td>Requests the module to gui file picker set start.</td></tr>
+        <tr><td><code>GUI_Music_Picker</code></td><td><code>Name: string, Text: string, Root: string, Start: string, Function: string</code></td><td>Requests the module to gui music picker.</td></tr>
+        <tr><td><code>GUI_Music_Picker_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui music picker value.</td></tr>
+        <tr><td><code>GUI_Playlist</code></td><td><code>Name: string, Text: string, File_Path: string, Function: string</code></td><td>Requests the module to gui playlist.</td></tr>
+        <tr><td><code>GUI_Playlist_Load</code></td><td><code>Name: string, File_Path: string</code></td><td>Requests the module to gui playlist load.</td></tr>
+        <tr><td><code>GUI_Playlist_Add</code></td><td><code>Name: string, Title: string, File_Path: string</code></td><td>Requests the module to gui playlist add.</td></tr>
+        <tr><td><code>GUI_Playlist_Clear</code></td><td><code>Name: string</code></td><td>Requests the module to gui playlist clear.</td></tr>
+        <tr><td><code>GUI_Playlist_Item_Count</code></td><td><code>Name: string</code></td><td>Requests the module to gui playlist item count.</td></tr>
+        <tr><td><code>GUI_Playlist_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui playlist changed.</td></tr>
+        <tr><td><code>GUI_Playlist_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui playlist value.</td></tr>
+        <tr><td><code>GUI_Selectable</code></td><td><code>Name: string, Text: string, Selected: int, Function: string</code></td><td>Requests the module to gui selectable.</td></tr>
+        <tr><td><code>GUI_Selection_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui selection value.</td></tr>
+        <tr><td><code>GUI_Selection_Text</code></td><td><code>Name: string</code></td><td>Requests the module to gui selection text.</td></tr>
+        <tr><td><code>GUI_Selection_Changed</code></td><td><code>Name: string</code></td><td>Requests the module to gui selection changed.</td></tr>
+        <tr><td><code>GUI_File_Picker_Value</code></td><td><code>Name: string</code></td><td>Requests the module to gui file picker value.</td></tr>
+        <tr><td><code>GUI_Progress_Bar</code></td><td><code>Name: string, Fraction: float, Text: string</code></td><td>Requests the module to gui progress bar.</td></tr>
+        <tr><td><code>GUI_Tooltip</code></td><td><code>Text: string</code></td><td>Requests the module to gui tooltip.</td></tr>
+        <tr><td><code>GUI_Tree_Node</code></td><td><code>Name: string</code></td><td>Requests the module to gui tree node.</td></tr>
+        <tr><td><code>GUI_Tree_End</code></td><td><code>none</code></td><td>Requests the module to gui tree end.</td></tr>
+        <tr><td><code>GUI_Tab_Bar_Begin</code></td><td><code>Name: string</code></td><td>Requests the module to gui tab bar begin.</td></tr>
+        <tr><td><code>GUI_Tab_Bar_End</code></td><td><code>none</code></td><td>Requests the module to gui tab bar end.</td></tr>
+        <tr><td><code>GUI_Tab_Item_Begin</code></td><td><code>Name: string</code></td><td>Requests the module to gui tab item begin.</td></tr>
+        <tr><td><code>GUI_Tab_Item_End</code></td><td><code>none</code></td><td>Requests the module to gui tab item end.</td></tr>
+        <tr><td><code>GUI_Menu_Bar_Begin</code></td><td><code>none</code></td><td>Requests the module to gui menu bar begin.</td></tr>
+        <tr><td><code>GUI_Menu_Bar_End</code></td><td><code>none</code></td><td>Requests the module to gui menu bar end.</td></tr>
+        <tr><td><code>GUI_Menu_Begin</code></td><td><code>Name: string</code></td><td>Requests the module to gui menu begin.</td></tr>
+        <tr><td><code>GUI_Menu_End</code></td><td><code>none</code></td><td>Requests the module to gui menu end.</td></tr>
+        <tr><td><code>GUI_Menu_Item</code></td><td><code>Name: string, Text: string, Function: string</code></td><td>Requests the module to gui menu item.</td></tr>
+        <tr><td><code>Set_GUI_Function</code></td><td><code>Name: string, Function: string</code></td><td>Requests the module to set gui function.</td></tr>
+        <tr><td><code>Set_GUI_Visible</code></td><td><code>Value: string</code></td><td>Requests the module to set gui visible.</td></tr>
+        <tr><td><code>Set_GUI_Docking</code></td><td><code>Value: string</code></td><td>Requests the module to set gui docking.</td></tr>
+        <tr><td><code>Toggle_GUI</code></td><td><code>none</code></td><td>Requests the module to toggle gui.</td></tr>
+        <tr><td><code>GUI_End</code></td><td><code>none</code></td><td>Finishes GUI processing for the current frame.</td></tr>
+        <tr><td><code>Render</code></td><td><code>none</code></td><td>Renders the current graphics frame.</td></tr>
+        <tr><td><code>Update</code></td><td><code>none</code></td><td>Advances or refreshes the module state for the current update cycle.</td></tr>
+        <tr><td><code>Wait_Until_Close</code></td><td><code>Window: string</code></td><td>Blocks until all graphics windows have closed.</td></tr>
+        <tr><td><code>Window_Open</code></td><td><code>Window: string</code></td><td>Requests the module to window open.</td></tr>
+      </tbody>
+    </table>
+    <footer>125 commands documented.</footer>
+  </main>
+  <script>
+    const filter = document.getElementById('filter');
+    const rows = [...document.querySelectorAll('tbody tr')];
+    filter.addEventListener('input', () => {
+      const query = filter.value.toLowerCase();
+      rows.forEach(row => row.hidden = !row.textContent.toLowerCase().includes(query));
+    });
+  </script>
+</body>
+</html>
