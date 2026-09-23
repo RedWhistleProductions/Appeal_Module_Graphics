@@ -2,6 +2,9 @@
 #include "Data_Source.h"
 #include "Module_Data.h"
 #include "Named_List.h"
+#include <fstream>
+#include <iomanip>
+#include <sstream>
 
 Plugin Module;
 bool Module_Debug = false;
@@ -165,6 +168,37 @@ void Set_Global(std::string Name, std::string Type, std::string Value)
     else
     {
         Globals->Add_Node(Full_Name, Data);
+    }
+}
+
+void Load_Default_Graphics_Config()
+{
+    std::ifstream File("Resources/Modules/Appeal_Module_Graphics/Default_Graphics_Config.Appeal");
+    if(!File.is_open()) return;
+
+    std::string Line;
+    while(std::getline(File, Line))
+    {
+        std::istringstream Stream(Line);
+        std::string Name;
+        std::string Type;
+        std::string Value;
+
+        if(!(Stream >> Name)) continue;
+        if(Name == "//" || Name[0] == '#') continue;
+        if(!(Stream >> Type)) continue;
+
+        Stream >> std::ws;
+        if(Stream.peek() == '"')
+        {
+            Stream >> std::quoted(Value);
+        }
+        else
+        {
+            Stream >> Value;
+        }
+
+        Set_Global(Name, Type, Value);
     }
 }
 
@@ -463,6 +497,7 @@ extern "C" void Init_Globals(std::string Name, Named_List<Module_Data> *Shared_G
     Assign("Window_Open", Window_Open);
 
     Set_Global("Window.Main.Open", "bool", "0");
+    Load_Default_Graphics_Config();
 }
 
 extern "C" void Init(std::string Name)
@@ -508,11 +543,6 @@ extern "C" void Shutdown()
     }
 
     Plugin_Loaded = false;
-
-    if(Close_All != nullptr)
-    {
-        Close_All();
-    }
     Module.Unload();
     Globals = nullptr;
 
@@ -710,6 +740,7 @@ extern "C" void Interpreter(Data_Source *Data)
     {
         Close_All();
         Set_Global("Window.Main.Open", "bool", "0");
+    Load_Default_Graphics_Config();
     }
     else if(Command == "Show")
     {

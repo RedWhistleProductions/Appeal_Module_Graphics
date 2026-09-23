@@ -1,0 +1,3 @@
+// Default Graphics Globals
+// Format: Name Type Value
+Window.Main.Open bool 0

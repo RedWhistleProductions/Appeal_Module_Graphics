@@ -5,11 +5,11 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 CXX ?= g++
 	CXXFLAGS = -shared -fPIC -Wall -I../../Source
-	TARGET = Graphics.so
+	TARGET = Appeal_Module_Graphics.so
 else
 CXX ?= g++
 	CXXFLAGS = -shared -Wall -I../../Source
-	TARGET = Graphics.dll
+	TARGET = Appeal_Module_Graphics.dll
 endif
 
 SRCS = ./src/main.cpp ./src/Data_Source.cpp ./src/Plugin.cpp
