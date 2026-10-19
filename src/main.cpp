@@ -6,6 +6,16 @@
 #include <iomanip>
 #include <sstream>
 
+bool (*Load_Animation)(std::string Name, std::string Animation, std::string File, int Width, int Height, int First, int Count);
+bool (*Set_Animation)(std::string Name, std::string Animation);
+void (*Reset_Animation)(std::string Name);
+bool (*Set_Animation_FPS)(std::string Name, std::string Animation, float FPS);
+bool (*Set_Animation_Mode)(std::string Name, std::string Animation, std::string Mode);
+int (*Animation_Frame)(std::string Name);
+std::string (*Current_Animation)(std::string Name);
+void (*Rotate)(std::string Name, float Turn, float Tilt, float Pitch);
+void (*Paste)(std::string Name, int X, int Y, int Z);
+
 Plugin Module;
 bool Module_Debug = false;
 bool Plugin_Loaded = false;
@@ -14,6 +24,7 @@ void (*Debug)(bool Enable);
 void (*Set_Paths)(std::string Resources);
 
 void (*Add_Window)(std::string Name, std::string Title, int Width, int Height);
+void (*Set_Window_Title)(std::string Name, std::string Title);
 void (*Add_Full_Screen_Window)(std::string Name, int Monitor);
 void (*Delete_Window)(std::string Name);
 void (*Close_All)();
@@ -362,6 +373,7 @@ extern "C" void Init_Globals(std::string Name, Named_List<Module_Data> *Shared_G
     Assign("Set_Paths", Set_Paths);
 
     Assign("Add_Window", Add_Window);
+    Assign("Set_Window_Title", Set_Window_Title);
     Assign("Add_Full_Screen_Window", Add_Full_Screen_Window);
     Assign("Delete_Window", Delete_Window);
     Assign("Close_All", Close_All);
@@ -390,6 +402,15 @@ extern "C" void Init_Globals(std::string Name, Named_List<Module_Data> *Shared_G
     Assign("Free_Texture", Free_Texture);
     Assign("Free_Asset", Free_Asset);
 
+    Assign("Load_Animation", Load_Animation);
+    Assign("Set_Animation", Set_Animation);
+    Assign("Reset_Animation", Reset_Animation);
+    Assign("Set_Animation_FPS", Set_Animation_FPS);
+    Assign("Set_Animation_Mode", Set_Animation_Mode);
+    Assign("Animation_Frame", Animation_Frame);
+    Assign("Current_Animation", Current_Animation);
+    Assign("Rotate", Rotate);
+    Assign("Paste", Paste);
     Assign("Set_Texture", Set_Texture);
     Assign("Set_Shader", Set_Shader);
     Assign("Set_Location", Set_Location);
@@ -549,6 +570,7 @@ extern "C" void Shutdown()
     Debug = nullptr;
     Set_Paths = nullptr;
     Add_Window = nullptr;
+    Set_Window_Title = nullptr;
     Add_Full_Screen_Window = nullptr;
     Delete_Window = nullptr;
     Close_All = nullptr;
@@ -573,6 +595,15 @@ extern "C" void Shutdown()
     Load_Asset = nullptr;
     Free_Texture = nullptr;
     Free_Asset = nullptr;
+    Load_Animation = nullptr;
+    Set_Animation = nullptr;
+    Reset_Animation = nullptr;
+    Set_Animation_FPS = nullptr;
+    Set_Animation_Mode = nullptr;
+    Animation_Frame = nullptr;
+    Current_Animation = nullptr;
+    Rotate = nullptr;
+    Paste = nullptr;
     Set_Texture = nullptr;
     Set_Shader = nullptr;
     Set_Location = nullptr;
@@ -719,6 +750,13 @@ extern "C" void Interpreter(Data_Source *Data)
         *Data >> Height;
         Add_Window(Name, Title, Width, Height);
         Update_Window_Global(Name);
+    }
+    else if(Command == "Set_Window_Title")
+    {
+        std::string Name, Title;
+        *Data >> Name;
+        *Data >> Title;
+        if(Set_Window_Title != nullptr) Set_Window_Title(Name, Title);
     }
     else if(Command == "Add_Full_Screen_Window")
     {
@@ -909,6 +947,103 @@ extern "C" void Interpreter(Data_Source *Data)
         std::string Name;
         *Data >> Name;
         Free_Asset(Name);
+    }
+    else if(Command == "Load_Animation")
+    {
+        std::string Name;
+        *Data >> Name;
+        std::string Animation;
+        *Data >> Animation;
+        std::string File;
+        *Data >> File;
+        int Width;
+        *Data >> Width;
+        int Height;
+        *Data >> Height;
+        int First;
+        *Data >> First;
+        int Count;
+        *Data >> Count;
+        if(!Load_Animation) throw std::runtime_error("Graphics plugin does not support Load_Animation");
+        Data->Return_Value(Load_Animation(Name, Animation, File, Width, Height, First, Count) ? "1" : "0");
+    }
+    else if(Command == "Set_Animation")
+    {
+        std::string Name;
+        *Data >> Name;
+        std::string Animation;
+        *Data >> Animation;
+        if(!Set_Animation) throw std::runtime_error("Graphics plugin does not support Set_Animation");
+        Data->Return_Value(Set_Animation(Name, Animation) ? "1" : "0");
+    }
+    else if(Command == "Reset_Animation")
+    {
+        std::string Name;
+        *Data >> Name;
+        if(!Reset_Animation) throw std::runtime_error("Graphics plugin does not support Reset_Animation");
+        Reset_Animation(Name);
+    }
+    else if(Command == "Set_Animation_FPS")
+    {
+        std::string Name;
+        *Data >> Name;
+        std::string Animation;
+        *Data >> Animation;
+        float FPS;
+        *Data >> FPS;
+        if(!Set_Animation_FPS) throw std::runtime_error("Graphics plugin does not support Set_Animation_FPS");
+        Data->Return_Value(Set_Animation_FPS(Name, Animation, FPS) ? "1" : "0");
+    }
+    else if(Command == "Set_Animation_Mode")
+    {
+        std::string Name;
+        *Data >> Name;
+        std::string Animation;
+        *Data >> Animation;
+        std::string Mode;
+        *Data >> Mode;
+        if(!Set_Animation_Mode) throw std::runtime_error("Graphics plugin does not support Set_Animation_Mode");
+        Data->Return_Value(Set_Animation_Mode(Name, Animation, Mode) ? "1" : "0");
+    }
+    else if(Command == "Animation_Frame")
+    {
+        std::string Name;
+        *Data >> Name;
+        if(!Animation_Frame) throw std::runtime_error("Graphics plugin does not support Animation_Frame");
+        Data->Return_Value(std::to_string(Animation_Frame(Name)));
+    }
+    else if(Command == "Current_Animation")
+    {
+        std::string Name;
+        *Data >> Name;
+        if(!Current_Animation) throw std::runtime_error("Graphics plugin does not support Current_Animation");
+        Data->Return_Value(Current_Animation(Name));
+    }
+    else if(Command == "Rotate")
+    {
+        std::string Name;
+        *Data >> Name;
+        float Turn;
+        *Data >> Turn;
+        float Tilt;
+        *Data >> Tilt;
+        float Pitch;
+        *Data >> Pitch;
+        if(!Rotate) throw std::runtime_error("Graphics plugin does not support Rotate");
+        Rotate(Name, Turn, Tilt, Pitch);
+    }
+    else if(Command == "Paste")
+    {
+        std::string Name;
+        *Data >> Name;
+        int X;
+        *Data >> X;
+        int Y;
+        *Data >> Y;
+        int Z;
+        *Data >> Z;
+        if(!Paste) throw std::runtime_error("Graphics plugin does not support Paste");
+        Paste(Name, X, Y, Z);
     }
     else if(Command == "Set_Texture")
     {

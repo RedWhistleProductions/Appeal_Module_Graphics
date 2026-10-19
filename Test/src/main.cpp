@@ -23,6 +23,11 @@ extern "C" void Add_Full_Screen_Window(std::string Name, int Monitor)
 	std::cout << "Add_Full_Screen_Window " << Name << " " << Monitor << std::endl;
 }
 
+extern "C" void Set_Window_Title(std::string Name, std::string Title)
+{
+    std::cout << "Set_Window_Title " << Name << " " << Title << std::endl;
+}
+
 extern "C" void Delete_Window(std::string Name)
 {
 	std::cout << "Delete_Window " << Name << std::endl;
@@ -677,4 +682,55 @@ extern "C" bool Window_Open(std::string Window)
 {
 	std::cout << "Window_Open " << Window << std::endl;
 	return false;
+}
+
+extern "C" bool Load_Animation(std::string Name, std::string Animation, std::string File, int Width, int Height, int First, int Count)
+{
+    std::cout << "Load_Animation" << " " << Name << " " << Animation << " " << File << " " << Width << " " << Height << " " << First << " " << Count << std::endl;
+    return true;
+}
+
+extern "C" bool Set_Animation(std::string Name, std::string Animation)
+{
+    std::cout << "Set_Animation" << " " << Name << " " << Animation << std::endl;
+    return true;
+}
+
+extern "C" void Reset_Animation(std::string Name)
+{
+    std::cout << "Reset_Animation" << " " << Name << std::endl;
+}
+
+extern "C" bool Set_Animation_FPS(std::string Name, std::string Animation, float FPS)
+{
+    std::cout << "Set_Animation_FPS" << " " << Name << " " << Animation << " " << FPS << std::endl;
+    return true;
+}
+
+extern "C" bool Set_Animation_Mode(std::string Name, std::string Animation, std::string Mode)
+{
+    std::cout << "Set_Animation_Mode" << " " << Name << " " << Animation << " " << Mode << std::endl;
+    return true;
+}
+
+extern "C" int Animation_Frame(std::string Name)
+{
+    std::cout << "Animation_Frame" << " " << Name << std::endl;
+    return 0;
+}
+
+extern "C" std::string Current_Animation(std::string Name)
+{
+    std::cout << "Current_Animation" << " " << Name << std::endl;
+    return "Standing";
+}
+
+extern "C" void Rotate(std::string Name, float Turn, float Tilt, float Pitch)
+{
+    std::cout << "Rotate" << " " << Name << " " << Turn << " " << Tilt << " " << Pitch << std::endl;
+}
+
+extern "C" void Paste(std::string Name, int X, int Y, int Z)
+{
+    std::cout << "Paste" << " " << Name << " " << X << " " << Y << " " << Z << std::endl;
 }

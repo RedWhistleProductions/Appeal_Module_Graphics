@@ -30,10 +30,20 @@
     <table>
       <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
       <tbody>
+        <tr><td><code>Load_Animation</code></td><td><code>Name: string, Animation: string, File: string, Width: int, Height: int, First: int, Count: int</code></td><td>Loads a named grid animation from Graphics/Sprites. Zero-based row-major First; positive Count. Returns success (1/0).</td></tr>
+        <tr><td><code>Set_Animation</code></td><td><code>Name: string, Animation: string</code></td><td>Selects and restarts a different animation. Selecting the current animation preserves playback. Returns success.</td></tr>
+        <tr><td><code>Reset_Animation</code></td><td><code>Name: string</code></td><td>Returns to the first loaded animation and frame zero.</td></tr>
+        <tr><td><code>Set_Animation_FPS</code></td><td><code>Name: string, Animation: string, FPS: float</code></td><td>Sets animation FPS; zero inherits Graphics Set_FPS. Returns success.</td></tr>
+        <tr><td><code>Set_Animation_Mode</code></td><td><code>Name: string, Animation: string, Mode: string</code></td><td>Sets Loop (default), Hold, or Reset completion behavior. Returns success.</td></tr>
+        <tr><td><code>Rotate</code></td><td><code>Name: string, Turn: float, Tilt: float, Pitch: float</code></td><td>Stores orientation without submitting the asset; Tilt is in-plane sprite rotation.</td></tr>
+        <tr><td><code>Paste</code></td><td><code>Name: string, X: int, Y: int, Z: int</code></td><td>Moves and submits the asset for persistent display. Render advances its animation automatically.</td></tr>
+        <tr><td><code>Animation_Frame</code></td><td><code>Name: string</code></td><td>Returns zero-based frame position within the current animation, or -1 if absent.</td></tr>
+        <tr><td><code>Current_Animation</code></td><td><code>Name: string</code></td><td>Returns the selected animation name, or an empty string if absent.</td></tr>
         <tr><td><code>Init</code></td><td><code>Name: string</code></td><td>Initializes the module and loads its default plugin.</td></tr>
         <tr><td><code>Debug</code></td><td><code>Value: string</code></td><td>Enables or disables diagnostic logging for the module and active plugin.</td></tr>
         <tr><td><code>Set_Paths</code></td><td><code>Resources: string</code></td><td>Sets the root Appeal resources path used by the module.</td></tr>
         <tr><td><code>Add_Window</code></td><td><code>Name: string, Title: string, Width: int, Height: int</code></td><td>Requests the module to add window.</td></tr>
+        <tr><td><code>Set_Window_Title</code></td><td><code>Window_Name: string, Title: string</code></td><td>Changes the named window's title without recreating it. Quote titles containing spaces. An unknown window name is ignored.</td></tr>
         <tr><td><code>Add_Full_Screen_Window</code></td><td><code>Name: string, Monitor: int</code></td><td>Requests the module to add full screen window.</td></tr>
         <tr><td><code>Delete_Window</code></td><td><code>Name: string</code></td><td>Requests the module to delete window.</td></tr>
         <tr><td><code>Close_All</code></td><td><code>none</code></td><td>Closes every open graphics window.</td></tr>
@@ -157,7 +167,7 @@
         <tr><td><code>Window_Open</code></td><td><code>Window: string</code></td><td>Requests the module to window open.</td></tr>
       </tbody>
     </table>
-    <footer>125 commands documented.</footer>
+    <footer>134 commands documented.</footer>
   </main>
   <script>
     const filter = document.getElementById('filter');
