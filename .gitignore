@@ -20,4 +20,5 @@ Thumbs.db
 
 
 # SDL backend is maintained in its own repository; Test belongs here.
-/Appeal_SDL2_Graphics/
+/Appeal_SDL2_Legacy_OpenGL_Graphics/
+/Appeal_SDL2_Modern_OpenGL_Graphics/

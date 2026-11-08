@@ -28,8 +28,8 @@ Different animations for one asset may use different sheets.
 ```text
 Graphics Add_Window Main "Animations" 800 600
 Graphics Set_FPS 60
-Graphics Load_Animation Adam Standing Examples/Characters/Adam_Movement.png 64 64 0 8
-Graphics Load_Animation Adam Walking Examples/Characters/Adam_Movement.png 64 64 8 8
+Graphics Load_Animation Adam Standing Examples/Characters/Adam/Adam_Movement.png 64 64 0 8
+Graphics Load_Animation Adam Walking Examples/Characters/Adam/Adam_Movement.png 64 64 8 8
 Graphics Set_Animation_FPS Adam Standing 7
 Graphics Set_Animation_FPS Adam Walking 10
 Graphics Set_Scale Adam 3 3 1

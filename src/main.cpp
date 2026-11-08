@@ -26,6 +26,11 @@ void (*Set_Paths)(std::string Resources);
 void (*Add_Window)(std::string Name, std::string Title, int Width, int Height);
 void (*Set_Window_Title)(std::string Name, std::string Title);
 void (*Add_Full_Screen_Window)(std::string Name, int Monitor);
+bool (*Toggle_Fullscreen)(std::string Name);
+double (*Milliseconds)();
+bool (*GUI_Text_Editor_Style)(std::string Name,std::string File,int Size,int R,int G,int B);
+void (*GUI_Text_Editor)(std::string Name,std::string Text,std::string Value);
+bool (*GUI_Image_Blend)(std::string Name,std::string First,std::string Second,float Blend);
 void (*Delete_Window)(std::string Name);
 void (*Close_All)();
 void (*Show)(std::string Name);
@@ -68,7 +73,28 @@ void (*Draw_Text)(std::string Font, std::string Text, float X, float Y);
 void (*Draw_Rect)(std::string Name, float X, float Y, float W, float H, int R, int G, int B, int A);
 void (*GUI_Begin)(std::string Name);
 void (*GUI_Begin_Fullscreen)(std::string Name);
+void (*Set_GUI_Editor_Mode)(bool) = nullptr;
+void (*GUI_Reset_Editor_Layout)() = nullptr;
+void (*GUI_Begin_Frame)() = nullptr;
+bool (*Video_Upload)(const char*,int,int,int,const unsigned char*)=nullptr;
+void (*Video_Draw)(const char*,int,int,int,int)=nullptr;
+void (*Video_Release)(const char*)=nullptr;
+void (*GUI_Set_Window_Open)(std::string,bool) = nullptr;
+void (*GUI_Set_Window_Functions)(std::string,std::string,std::string) = nullptr;
+void (*GUI_Begin_Window)(std::string) = nullptr;
+void (*GUI_Editor_Viewport)(std::string,int,int,int,int) = nullptr;
+void (*GUI_Viewport_Grid)(std::string,int,int) = nullptr;
+void (*GUI_Map_Preview)(std::string,std::string,int,int,int,int,int) = nullptr;
+int (*GUI_Viewport_Value)(std::string,std::string) = nullptr;
 void (*GUI_End_Window)();
+void (*Paste_Rect)(std::string,float,float,float,float) = nullptr;
+void (*GUI_Set_Next_Window_Scroll)(int) = nullptr;
+void (*GUI_Set_Slider_Int_Value)(std::string,int) = nullptr;
+std::string (*Sprite_Info)(std::string,int,int,int,int,std::string) = nullptr;
+void (*GUI_Set_Next_Item_Width)(int) = nullptr;
+void (*Set_Draw_Order)(std::string, int) = nullptr;
+void (*GUI_Image)(std::string, std::string, int, int, int, int, int) = nullptr;
+void (*GUI_Set_Selection_Value)(std::string, int) = nullptr;
 void (*GUI_Text)(std::string Name, std::string Text);
 void (*GUI_Label_Text)(std::string Name, std::string Text);
 void (*GUI_Bullet_Text)(std::string Name, std::string Text);
@@ -129,6 +155,8 @@ void (*GUI_Music_Picker)(std::string Name, std::string Text, std::string Root, s
 std::string (*GUI_Music_Picker_Selected_Title)(std::string Name);
 std::string (*GUI_Music_Picker_Selected_Path)(std::string Name);
 bool (*GUI_Music_Picker_Changed)(std::string Name);
+void (*GUI_Music_Picker_Recursive)(std::string Name, bool Enabled);
+bool (*GUI_Playlist_Save)(std::string Name);
 void (*GUI_Playlist)(std::string Name, std::string Text, std::string File_Path);
 void (*GUI_Playlist_Load)(std::string Name, std::string File_Path);
 void (*GUI_Playlist_Add)(std::string Name, std::string Title, std::string File_Path);
@@ -375,6 +403,11 @@ extern "C" void Init_Globals(std::string Name, Named_List<Module_Data> *Shared_G
     Assign("Add_Window", Add_Window);
     Assign("Set_Window_Title", Set_Window_Title);
     Assign("Add_Full_Screen_Window", Add_Full_Screen_Window);
+    Assign("Toggle_Fullscreen", Toggle_Fullscreen);
+    Assign("Milliseconds", Milliseconds);
+    Assign("GUI_Text_Editor_Style", GUI_Text_Editor_Style);
+    Assign("GUI_Text_Editor", GUI_Text_Editor);
+    Assign("GUI_Image_Blend", GUI_Image_Blend);
     Assign("Delete_Window", Delete_Window);
     Assign("Close_All", Close_All);
     Assign("Show", Show);
@@ -427,6 +460,27 @@ extern "C" void Init_Globals(std::string Name, Named_List<Module_Data> *Shared_G
     Assign("GUI_Begin", GUI_Begin);
     Assign("GUI_Begin_Fullscreen", GUI_Begin_Fullscreen);
     Assign("GUI_End_Window", GUI_End_Window);
+    Assign("GUI_Set_Slider_Int_Value", GUI_Set_Slider_Int_Value);
+    Assign("GUI_Set_Next_Window_Scroll", GUI_Set_Next_Window_Scroll);
+    Assign("Paste_Rect", Paste_Rect);
+    Assign("Sprite_Info", Sprite_Info);
+    Assign("GUI_Set_Next_Item_Width", GUI_Set_Next_Item_Width);
+    Assign("Set_GUI_Editor_Mode", Set_GUI_Editor_Mode);
+    Assign("GUI_Reset_Editor_Layout", GUI_Reset_Editor_Layout);
+    Assign("GUI_Begin_Frame", GUI_Begin_Frame);
+    Assign("Video_Upload",Video_Upload);
+    Assign("Video_Draw",Video_Draw);
+    Assign("Video_Release",Video_Release);
+    Assign("GUI_Begin_Window", GUI_Begin_Window);
+    Assign("GUI_Set_Window_Open", GUI_Set_Window_Open);
+    Assign("GUI_Set_Window_Functions", GUI_Set_Window_Functions);
+    Assign("GUI_Editor_Viewport", GUI_Editor_Viewport);
+    Assign("GUI_Viewport_Value", GUI_Viewport_Value);
+    Assign("GUI_Viewport_Grid", GUI_Viewport_Grid);
+    Assign("GUI_Map_Preview", GUI_Map_Preview);
+    Assign("Set_Draw_Order", Set_Draw_Order);
+    Assign("GUI_Image", GUI_Image);
+    Assign("GUI_Set_Selection_Value", GUI_Set_Selection_Value);
     Assign("GUI_Text", GUI_Text);
     Assign("GUI_Label_Text", GUI_Label_Text);
     Assign("GUI_Bullet_Text", GUI_Bullet_Text);
@@ -487,6 +541,8 @@ extern "C" void Init_Globals(std::string Name, Named_List<Module_Data> *Shared_G
     Assign("GUI_Music_Picker_Selected_Title", GUI_Music_Picker_Selected_Title);
     Assign("GUI_Music_Picker_Selected_Path", GUI_Music_Picker_Selected_Path);
     Assign("GUI_Music_Picker_Changed", GUI_Music_Picker_Changed);
+    Assign("GUI_Music_Picker_Recursive", GUI_Music_Picker_Recursive);
+    Assign("GUI_Playlist_Save", GUI_Playlist_Save);
     Assign("GUI_Playlist", GUI_Playlist);
     Assign("GUI_Playlist_Load", GUI_Playlist_Load);
     Assign("GUI_Playlist_Add", GUI_Playlist_Add);
@@ -572,6 +628,11 @@ extern "C" void Shutdown()
     Add_Window = nullptr;
     Set_Window_Title = nullptr;
     Add_Full_Screen_Window = nullptr;
+    Toggle_Fullscreen = nullptr;
+    Milliseconds = nullptr;
+    GUI_Text_Editor_Style = nullptr;
+    GUI_Text_Editor = nullptr;
+    GUI_Image_Blend = nullptr;
     Delete_Window = nullptr;
     Close_All = nullptr;
     Show = nullptr;
@@ -619,6 +680,25 @@ extern "C" void Shutdown()
     GUI_Begin = nullptr;
     GUI_Begin_Fullscreen = nullptr;
     GUI_End_Window = nullptr;
+    GUI_Set_Slider_Int_Value = nullptr;
+    GUI_Set_Next_Window_Scroll = nullptr;
+    Paste_Rect = nullptr;
+    Sprite_Info = nullptr;
+    GUI_Set_Next_Item_Width = nullptr;
+    Set_GUI_Editor_Mode = nullptr;
+    GUI_Reset_Editor_Layout = nullptr;
+    GUI_Begin_Frame = nullptr;
+    Video_Upload=nullptr;Video_Draw=nullptr;Video_Release=nullptr;
+    GUI_Begin_Window = nullptr;
+    GUI_Set_Window_Open = nullptr;
+    GUI_Set_Window_Functions = nullptr;
+    GUI_Editor_Viewport = nullptr;
+    GUI_Viewport_Value = nullptr;
+    GUI_Viewport_Grid = nullptr;
+    GUI_Map_Preview = nullptr;
+    Set_Draw_Order = nullptr;
+    GUI_Image = nullptr;
+    GUI_Set_Selection_Value = nullptr;
     GUI_Text = nullptr;
     GUI_Label_Text = nullptr;
     GUI_Bullet_Text = nullptr;
@@ -679,6 +759,8 @@ extern "C" void Shutdown()
     GUI_Music_Picker_Selected_Title = nullptr;
     GUI_Music_Picker_Selected_Path = nullptr;
     GUI_Music_Picker_Changed = nullptr;
+    GUI_Music_Picker_Recursive = nullptr;
+    GUI_Playlist_Save = nullptr;
     GUI_Playlist = nullptr;
     GUI_Playlist_Load = nullptr;
     GUI_Playlist_Add = nullptr;
@@ -766,6 +848,24 @@ extern "C" void Interpreter(Data_Source *Data)
         *Data >> Monitor;
         Add_Full_Screen_Window(Name, Monitor);
         Update_Window_Global(Name);
+    }
+    else if(Command == "Milliseconds")
+    {
+        if(!Milliseconds) throw std::runtime_error("Graphics plugin does not support Milliseconds");
+        Data->Return_Value(std::to_string(Milliseconds()));
+    }
+    else if(Command == "GUI_Image_Blend")
+    {
+        std::string Name,First,Second;float Blend;
+        *Data >> Name;*Data >> First;*Data >> Second;*Data >> Blend;
+        if(!GUI_Image_Blend) throw std::runtime_error("Graphics plugin does not support GUI_Image_Blend");
+        Data->Return_Value(GUI_Image_Blend(Name,First,Second,Blend)?"1":"0");
+    }
+    else if(Command == "Toggle_Fullscreen")
+    {
+        std::string Name; *Data >> Name;
+        if(!Toggle_Fullscreen) throw std::runtime_error("Graphics plugin does not support Toggle_Fullscreen");
+        Data->Return_Value(Toggle_Fullscreen(Name) ? "1" : "0");
     }
     else if(Command == "Delete_Window")
     {
@@ -1168,6 +1268,111 @@ extern "C" void Interpreter(Data_Source *Data)
             GUI_Begin_Fullscreen(Name);
         }
     }
+    else if(Command == "Set_Draw_Order")
+    {
+        std::string Name; int Order; *Data >> Name; *Data >> Order;
+        if(!Set_Draw_Order) throw std::runtime_error("Graphics plugin does not support Set_Draw_Order");
+        Set_Draw_Order(Name, Order);
+    }
+    else if(Command == "Set_GUI_Editor_Mode")
+    {
+        std::string Value; *Data >> Value;
+        const bool Enabled=Value=="True" || Value=="true" || Value=="On" || Value=="on" || Value=="1";
+        if(!Set_GUI_Editor_Mode) throw std::runtime_error("Graphics plugin does not support editor mode");
+        Set_GUI_Editor_Mode(Enabled);
+    }
+    else if(Command == "GUI_Begin_Frame" || Command == "GUI_Reset_Editor_Layout")
+    {
+        auto Function=Command=="GUI_Begin_Frame" ? GUI_Begin_Frame : GUI_Reset_Editor_Layout;
+        if(!Function) throw std::runtime_error("Graphics plugin does not support editor layout");
+        Function();
+    }
+    else if(Command == "GUI_Set_Window_Open")
+    {
+        std::string Name,Open;*Data>>Name;*Data>>Open;
+        if(GUI_Set_Window_Open) GUI_Set_Window_Open(Name,Open=="1" || Open=="True" || Open=="true");
+    }
+    else if(Command == "GUI_Set_Window_Functions")
+    {
+        std::string Name,Close,Open;*Data>>Name;*Data>>Close;*Data>>Open;
+        if(GUI_Set_Window_Functions) GUI_Set_Window_Functions(Name,Close,Open);
+    }
+    else if(Command == "GUI_Begin_Window")
+    {
+        std::string Name; *Data >> Name;
+        if(!GUI_Begin_Window) throw std::runtime_error("Graphics plugin does not support GUI_Begin_Window");
+        GUI_Begin_Window(Name);
+    }
+    else if(Command == "GUI_Editor_Viewport")
+    {
+        std::string Name; int X,Y,W,H; *Data >> Name; *Data >> X; *Data >> Y; *Data >> W; *Data >> H;
+        if(!GUI_Editor_Viewport) throw std::runtime_error("Graphics plugin does not support editor viewport");
+        GUI_Editor_Viewport(Name,X,Y,W,H);
+    }
+    else if(Command == "GUI_Viewport_Grid")
+    {
+        std::string Name;int Columns,Rows;*Data>>Name;*Data>>Columns;*Data>>Rows;
+        if(!GUI_Viewport_Grid) throw std::runtime_error("Graphics plugin does not support viewport grids");
+        GUI_Viewport_Grid(Name,Columns,Rows);
+    }
+    else if(Command == "GUI_Map_Preview")
+    {
+        std::string Name,Target;int X,Y,W,H,Size;*Data>>Name;*Data>>Target;*Data>>X;*Data>>Y;*Data>>W;*Data>>H;*Data>>Size;
+        if(!GUI_Map_Preview) throw std::runtime_error("Graphics plugin does not support map previews");
+        GUI_Map_Preview(Name,Target,X,Y,W,H,Size);
+    }
+    else if(Command == "GUI_Viewport_Value")
+    {
+        std::string Name,Field; *Data >> Name; *Data >> Field;
+        if(!GUI_Viewport_Value) throw std::runtime_error("Graphics plugin does not support viewport input");
+        Data->Return_Value(std::to_string(GUI_Viewport_Value(Name,Field)));
+    }
+    else if(Command == "GUI_Set_Next_Item_Width")
+    {
+        int Width; *Data >> Width;
+        if(!GUI_Set_Next_Item_Width) throw std::runtime_error("Graphics plugin does not support GUI_Set_Next_Item_Width");
+        GUI_Set_Next_Item_Width(Width);
+    }
+    else if(Command == "Sprite_Info")
+    {
+        std::string File,Field; int W,H,Frame,Span;
+        *Data >> File; *Data >> W; *Data >> H; *Data >> Frame; *Data >> Span; *Data >> Field;
+        if(!Sprite_Info) throw std::runtime_error("Graphics plugin does not support Sprite_Info");
+        Data->Return_Value(Sprite_Info(File,W,H,Frame,Span,Field));
+    }
+    else if(Command == "Paste_Rect")
+    {
+        std::string Name; float L,T,R,B; *Data >> Name; *Data >> L; *Data >> T; *Data >> R; *Data >> B;
+        if(!Paste_Rect) throw std::runtime_error("Graphics plugin does not support Paste_Rect");
+        Paste_Rect(Name,L,T,R,B);
+    }
+    else if(Command == "GUI_Set_Next_Window_Scroll")
+    {
+        int Y; *Data >> Y;
+        if(!GUI_Set_Next_Window_Scroll) throw std::runtime_error("Graphics plugin does not support GUI_Set_Next_Window_Scroll");
+        GUI_Set_Next_Window_Scroll(Y);
+    }
+    else if(Command == "GUI_Set_Slider_Int_Value")
+    {
+        std::string Name; int Value; *Data >> Name; *Data >> Value;
+        if(!GUI_Set_Slider_Int_Value) throw std::runtime_error("Graphics plugin does not support GUI_Set_Slider_Int_Value");
+        GUI_Set_Slider_Int_Value(Name,Value);
+    }
+    else if(Command == "GUI_Image")
+    {
+        std::string Name, File; int X, Y, W, H, Size;
+        *Data >> Name; *Data >> File; *Data >> X; *Data >> Y;
+        *Data >> W; *Data >> H; *Data >> Size;
+        if(!GUI_Image) throw std::runtime_error("Graphics plugin does not support GUI_Image");
+        GUI_Image(Name, File, X, Y, W, H, Size);
+    }
+    else if(Command == "GUI_Set_Selection_Value")
+    {
+        std::string Name; int Value; *Data >> Name; *Data >> Value;
+        if(!GUI_Set_Selection_Value) throw std::runtime_error("Graphics plugin does not support GUI_Set_Selection_Value");
+        GUI_Set_Selection_Value(Name, Value);
+        Update_GUI_Selection_Global(Name);
+    }
     else if(Command == "GUI_End_Window")
     {
         GUI_End_Window();
@@ -1376,6 +1581,22 @@ extern "C" void Interpreter(Data_Source *Data)
         GUI_Input_Text(Name, Text, Value);
         Update_GUI_Text_Global(Name);
     }
+    else if(Command == "GUI_Text_Editor_Style")
+    {
+        std::string Name,File;int Size,R,G,B;
+        *Data >> Name;*Data >> File;*Data >> Size;*Data >> R;*Data >> G;*Data >> B;
+        if(!GUI_Text_Editor_Style) throw std::runtime_error("Graphics plugin does not support GUI_Text_Editor_Style");
+        Data->Return_Value(GUI_Text_Editor_Style(Name,File,Size,R,G,B)?"1":"0");
+    }
+    else if(Command == "GUI_Text_Editor")
+    {
+        std::string Name,Text,Value,Function;
+        *Data >> Name; *Data >> Text; *Data >> Value; *Data >> Function;
+        if(!GUI_Text_Editor) throw std::runtime_error("Graphics plugin does not support GUI_Text_Editor");
+        Set_GUI_Control_Function(Name,Function);
+        GUI_Text_Editor(Name,Text,Value);
+        Update_GUI_Text_Global(Name);
+    }
     else if(Command == "GUI_Input_Text_Multiline")
     {
         std::string Name, Text, Value, Function;
@@ -1493,6 +1714,7 @@ extern "C" void Interpreter(Data_Source *Data)
         std::string Name;
         *Data >> Name;
         int Value = GUI_Checkbox_Value(Name);
+        Data->Return_Value(std::to_string(Value));
         Set_Global("GUI." + Name + ".Value", "bool", Value ? "1" : "0");
     }
     else if(Command == "GUI_Checkbox_Changed")
@@ -1500,6 +1722,7 @@ extern "C" void Interpreter(Data_Source *Data)
         std::string Name;
         *Data >> Name;
         bool Changed = GUI_Checkbox_Changed(Name);
+        Data->Return_Value(Changed ? "1" : "0");
         Set_Global("GUI." + Name + ".Changed", "bool", Changed ? "1" : "0");
         Set_Global("GUI." + Name + ".Value", "bool", GUI_Checkbox_Value(Name) ? "1" : "0");
     }
@@ -1605,6 +1828,18 @@ extern "C" void Interpreter(Data_Source *Data)
         std::string Name;
         *Data >> Name;
         Update_GUI_Music_Picker_Global(Name);
+    }
+    else if(Command == "GUI_Music_Picker_Recursive")
+    {
+        std::string Name, Enabled;
+        *Data >> Name; *Data >> Enabled;
+        if(!GUI_Music_Picker_Recursive) throw std::runtime_error("Graphics plugin does not support recursive music libraries");
+        GUI_Music_Picker_Recursive(Name, Enabled == "1" || Enabled == "True" || Enabled == "true");
+    }
+    else if(Command == "GUI_Playlist_Save")
+    {
+        std::string Name; *Data >> Name;
+        Data->Return_Value(GUI_Playlist_Save && GUI_Playlist_Save(Name) ? "1" : "0");
     }
     else if(Command == "GUI_Playlist")
     {
@@ -1870,3 +2105,8 @@ extern "C" void Interpreter(Data_Source *Data)
         if(Module_Debug) std::cout << "\tError: " << Command << " not found in Graphics Dictionary" << std::endl;
     }
 }
+
+// Native media bridge; pixels are borrowed only for the duration of this call.
+extern "C" bool Graphics_Video_Upload(const char *Name,int W,int H,int Stride,const unsigned char *Pixels) {return Video_Upload && Video_Upload(Name,W,H,Stride,Pixels);}
+extern "C" bool Graphics_Video_Draw(const char *Name,int X,int Y,int W,int H) {if(!Video_Draw)return false;Video_Draw(Name,X,Y,W,H);return true;}
+extern "C" void Graphics_Video_Release(const char *Name) {if(Video_Release)Video_Release(Name);}

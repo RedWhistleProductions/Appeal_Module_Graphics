@@ -1,6 +1,12 @@
 #include <iostream>
 
 bool Muted = false;
+extern "C" double Milliseconds() { return 0; }
+extern "C" bool GUI_Image_Blend(std::string Name,std::string First,std::string Second,float Blend)
+{
+    std::cout << "GUI_Image_Blend " << Name << " " << First << " " << Second << " " << Blend << std::endl;
+    return true;
+}
 
 // Turn Debug On or Off
 extern "C" void Debug(bool Enable)
@@ -26,6 +32,12 @@ extern "C" void Add_Full_Screen_Window(std::string Name, int Monitor)
 extern "C" void Set_Window_Title(std::string Name, std::string Title)
 {
     std::cout << "Set_Window_Title " << Name << " " << Title << std::endl;
+}
+
+extern "C" bool Toggle_Fullscreen(std::string Name)
+{
+    std::cout << "Toggle_Fullscreen " << Name << std::endl;
+    return true;
 }
 
 extern "C" void Delete_Window(std::string Name)
@@ -733,4 +745,35 @@ extern "C" void Rotate(std::string Name, float Turn, float Tilt, float Pitch)
 extern "C" void Paste(std::string Name, int X, int Y, int Z)
 {
     std::cout << "Paste" << " " << Name << " " << X << " " << Y << " " << Z << std::endl;
+}
+
+extern "C" void GUI_Music_Picker_Recursive(std::string Name, bool Enabled)
+{
+    std::cout << "GUI_Music_Picker_Recursive " << Name << " " << Enabled << std::endl;
+}
+extern "C" bool GUI_Playlist_Save(std::string Name)
+{
+    std::cout << "GUI_Playlist_Save " << Name << std::endl;
+    return true;
+}
+
+extern "C" void GUI_Viewport_Grid(std::string Name,int Columns,int Rows) {}
+extern "C" void GUI_Map_Preview(std::string Name,std::string Target,int X,int Y,int W,int H,int Size) {}
+
+extern "C" void GUI_Set_Window_Open(std::string Name,bool Open) {}
+extern "C" void GUI_Set_Window_Functions(std::string Name,std::string Close,std::string Open) {}
+
+extern "C" bool Video_Upload(const char*,int,int,int,const unsigned char*) {return false;}
+extern "C" void Video_Draw(const char*,int,int,int,int) {}
+extern "C" void Video_Release(const char*) {}
+
+extern "C" void GUI_Text_Editor(std::string Name,std::string Text,std::string Value)
+{
+    std::cout << "GUI_Text_Editor " << Name << " " << Text << " " << Value << std::endl;
+}
+
+extern "C" bool GUI_Text_Editor_Style(std::string Name,std::string File,int Size,int R,int G,int B)
+{
+    std::cout << "GUI_Text_Editor_Style " << Name << " " << File << " " << Size << std::endl;
+    return true;
 }
